@@ -46,7 +46,7 @@ jobs:
            VERSION: ${{ env.VERSION }}
       - name: 上传内核
         run: |
-          ./transfer trs ${VERSION}_${BOARD}.zip
+          ./transfer gof ${VERSION}_${BOARD}.zip
         env:
            BOARD: ${{ env.BOARD }}
            VERSION: ${{ env.VERSION }}
