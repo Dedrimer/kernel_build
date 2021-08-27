@@ -26,6 +26,7 @@ jobs:
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
+          wget https://raw.githubusercontent.com/zclkkk/kernel_build/main/build.sh
           bash build.sh
         env:
            BOARD: ${{ env.BOARD }}
