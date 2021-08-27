@@ -28,7 +28,7 @@ jobs:
         run: |
           export KBUILD_BUILD_USER="zclkkk"
           export KBUILD_BUILD_HOST="Server"
-          args="O=../out ARCH=arm64 CC=../clang/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
+          args="O=../out ARCH=arm64 AR=${CLANG_DIR}/bin/llvm-ar NM=${CLANG_DIR}/bin/llvm-nm STRIP=${CLANG_DIR}/bin/llvm-strip OBJDUMP=${CLANG_DIR}/bin/llvm-objdump OBJCOPY=${CLANG_DIR}/bin/llvm-objcopy CC=${CLANG_DIR}/bin/clang LD=${CLANG_DIR}/bin/ld.lld CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
           cd msm-4.14
           make ${args} ${BOARD}_defconfig
           make -j64 ${args}
