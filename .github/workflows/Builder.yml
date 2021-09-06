@@ -26,8 +26,12 @@ jobs:
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
-          wget https://raw.githubusercontent.com/zclkkk/kernel_build/main/build.sh
-          bash build.sh
+          export KBUILD_BUILD_USER="zclkkk"
+          export KBUILD_BUILD_HOST="Server"
+          args="O=../out ARCH=arm64 CC=../clang/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
+          cd msm-4.14
+          make ${args} ${BOARD}_defconfig
+          make -j64 ${args}
         env:
            BOARD: ${{ env.BOARD }}
       - name: 打包内核
