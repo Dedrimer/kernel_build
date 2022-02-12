@@ -17,8 +17,8 @@ jobs:
           curl -sL https://git.io/file-transfer | bash -s beta
       - name: 拉取源代码和工具链
         run: |
-          git clone https://oauth2:${{ secrets.TOKEN }}@github.com/zclkkk/kernel_xiaomi_sm8150.git msm-4.14 --depth=1 -b main
-          VERSION="$(cat msm-4.14/arch/arm64/configs/${BOARD}_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
+          git clone https://github.com/Dedrimer/msm-4.14 --depth=1
+          VERSION="$(cat msm-4.14/arch/arm64/configs/vendor/flash_lao_com-perf_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1
           mv linux-x86/clang-r428724 clang
@@ -26,18 +26,17 @@ jobs:
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
-          export KBUILD_BUILD_USER="zclkkk"
-          export KBUILD_BUILD_HOST="Server"
+          export KBUILD_BUILD_USER="Dedrimer"
+          export KBUILD_BUILD_HOST="Flashlmdd"
           args="O=../out ARCH=arm64 CC=../clang/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
           cd msm-4.14
-          make ${args} ${BOARD}_defconfig
+          make ${args} vendor/flash_lao_com-perf_defconfig
           make -j64 ${args}
         env:
            BOARD: ${{ env.BOARD }}
       - name: 打包内核
         run: |
           cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
-          cp out/arch/arm64/boot/dtbo.img AnyKernel3/
           cd AnyKernel3
           7z a -mx9 ${VERSION}.zip *
           zipalign -v 4 ${VERSION}.zip ../${VERSION}_${BOARD}.zip
