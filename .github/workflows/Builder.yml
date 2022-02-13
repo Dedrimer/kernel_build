@@ -20,7 +20,7 @@ jobs:
           git clone https://github.com/Dedrimer/android_kernel_xiaomi_sdm845 --depth=1
           VERSION="$(cat android_kernel_xiaomi_sdm845/arch/arm64/configs/vendor/polaris_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          git clone --depth=1 https://github.com/kdrag0n/proton-clang ${HOME}/clang
+          git clone --depth=1 https://github.com/kdrag0n/proton-clang clang
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
