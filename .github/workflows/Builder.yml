@@ -27,7 +27,7 @@ jobs:
           export KBUILD_BUILD_USER="Dedrimer"
           export KBUILD_BUILD_HOST="Polaris"
           args="O=../out ARCH=arm64 CC=../clang/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
-          cd msm-4.14
+          cd android_kernel_xiaomi_sdm845
           make ${args} polaris_defconfig
           make -j64 ${args}
         env:
