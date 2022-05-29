@@ -17,18 +17,18 @@ jobs:
           curl -sL https://git.io/file-transfer | bash -s beta
       - name: 拉取源代码和工具链
         run: |
-          git clone https://github.com/Dedrimer/android_kernel_xiaomi_sdm845 --depth=1
-          VERSION="$(cat android_kernel_xiaomi_sdm845/arch/arm64/configs/vendor/polaris_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
+          git clone https://github.com/UtsavBalar1231/kernel_xiaomi_sm8250 kernelsource --depth=1
+          VERSION="$(cat kernelsource/arch/arm64/configs/vendor/apollo_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           git clone --depth=1 https://github.com/kdrag0n/proton-clang clang
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
           export KBUILD_BUILD_USER="Dedrimer"
-          export KBUILD_BUILD_HOST="Polaris"
+          export KBUILD_BUILD_HOST="Apollo"
           args="O=../out ARCH=arm64 CC=../clang/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
-          cd android_kernel_xiaomi_sdm845
-          make ${args} polaris_defconfig
+          cd kernelsource
+          make ${args} apollo_defconfig
           make -j64 ${args}
         env:
            BOARD: ${{ env.BOARD }}
