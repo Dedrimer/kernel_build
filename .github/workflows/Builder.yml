@@ -21,7 +21,7 @@ jobs:
           VERSION="$(cat kernelsource/arch/arm64/configs/vendor/apollo_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           git clone --depth=1 https://github.com/kdrag0n/proton-clang clang
-          git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
+          git clone --depth=1 https://github.com/Dedrimer/AnyKernel3 -b test
       - name: 构建内核
         run: |
           export KBUILD_BUILD_USER="Dedrimer"
